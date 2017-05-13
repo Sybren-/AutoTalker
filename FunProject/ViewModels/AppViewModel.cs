@@ -108,14 +108,14 @@ namespace FunProject.ViewModels
             get { return _textEffects; }
         }
 
-        private ObservableCollection<string> _textEffectCode;
-        public ObservableCollection<string> TextEffectCode
+        private ObservableCollection<KeyValuePair<string, string>> _textEffectCodes = new ObservableCollection<KeyValuePair<string, string>>();
+        public ObservableCollection<KeyValuePair<string, string>> TextEffectCodes
         {
-            get { return _textEffectCode; }
+            get { return _textEffectCodes; }
             set
             {
-                _textEffectCode = value;
-                NotifyOfPropertyChange(() => TextEffectCode);
+                _textEffectCodes = value;
+                NotifyOfPropertyChange(() => TextEffectCodes);
             }
         }
 
@@ -134,7 +134,7 @@ namespace FunProject.ViewModels
         {
             IsRunning = true;
 
-            var x = TextEffectCode;
+            var x = TextEffectCodes;
             var message = TextEffectsProcessor.ProcessMessageTextColor(Message, TextColorCode, "TIJDELIJK");
 
             while (!token.IsCancellationRequested)
