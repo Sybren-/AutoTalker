@@ -1,0 +1,105 @@
+﻿<Controls:MetroWindow x:Class="FunProject.Views.AppView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:model="clr-namespace:FunProject.ViewModels"
+        xmlns:cal="http://www.caliburnproject.org" 
+        xmlns:conv="clr-namespace:FunProject.Converters"
+        xmlns:val="clr-namespace:FunProject.Validation"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        mc:Ignorable="d"
+        d:DataContext="{x:Type model:AppViewModel}"
+        Title="{Binding WindowTitle}" 
+        Height="Auto" 
+        Width="350" 
+        SizeToContent="Height"
+        FocusManager.FocusedElement="{Binding ElementName=message}">
+
+    <Controls:MetroWindow.Resources>
+        <conv:BoolToOppositeBoolConverter x:Key="oppositeConverter" />
+        <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        <conv:ColorToBrushConverter x:Key="colorToBrushConverter"/>
+    </Controls:MetroWindow.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="Message" Margin="0,5,0,5"/>
+        <!--<TextBox Grid.Row="0" Grid.Column="1" Margin="0,5,5,5" Text="{Binding Message}" Controls:TextBoxHelper.ClearTextButton="True" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}"/>-->
+        <TextBox x:Name="message" Grid.Row="0" Grid.Column="1" Margin="0,5,5,5" Controls:TextBoxHelper.ClearTextButton="True" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}">
+            <TextBox.Text>
+                <Binding Path="Message" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" >
+                    <Binding.ValidationRules>
+                        <val:RequiredValidationRule ValidatesOnTargetUpdated="True"/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="Interval (seconds)" Margin="0,5,0,5"/>
+        <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" Minimum="0" Value="{Binding Interval}" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}"/>
+
+        <Controls:ToggleSwitch Margin="5,0,5,0" x:Name="toggleSwitch" Grid.ColumnSpan="2" HeaderFontFamily="Segoe UI" FontFamily="Segoe UI" Grid.Row="2" OnLabel="Yes" OffLabel="No" Header="Runescape Text Effects"/>
+
+        <StackPanel Grid.Row="3"  Grid.ColumnSpan="2" Visibility ="{Binding ElementName=toggleSwitch, Path=IsChecked, Converter={StaticResource boolToVisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Margin="0,5,0,5" Content="Color"></Label>
+                <ComboBox ItemsSource="{Binding TextColors}" Controls:TextBoxHelper.ClearTextButton="True" Margin="0,5,5,5" SelectedValue="{Binding TextColorCode}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="1" Grid.Row="0">
+                    <ComboBox.ItemContainerStyle>
+                        <Style TargetType="ComboBoxItem">
+                            <Setter Property="Foreground" Value="{Binding Converter={StaticResource colorToBrushConverter}}"/>
+                        </Style>
+                    </ComboBox.ItemContainerStyle>
+                </ComboBox>
+
+                <Label Grid.Column="0" Grid.Row="1" Margin="0,5,0,5" Content="Effect"></Label>
+                <ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" Margin="0,5,5,5" SelectedValue="{Binding TextEffectCode}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="1" Grid.Row="1"/>
+            </Grid>
+        </StackPanel>
+
+        <Grid Grid.Row="4" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Margin="5,0,5,5" Content="Start" cal:Message.Attach="Run">
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Button.IsEnabled" Value="false" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=message, Path=(Validation.HasError)}" Value="false" />
+                                    <Condition Binding="{Binding IsRunning}" Value="false"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Button.IsEnabled" Value="true" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Grid.Column="1" Margin="5,0,5,5" Content="Stop" cal:Message.Attach="Stop" IsEnabled="{Binding IsRunning}"/>
+        </Grid>
+
+    </Grid>
+</Controls:MetroWindow>
