@@ -36,7 +36,6 @@
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Message" Margin="0,5,0,5"/>
-        <!--<TextBox Grid.Row="0" Grid.Column="1" Margin="0,5,5,5" Text="{Binding Message}" Controls:TextBoxHelper.ClearTextButton="True" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}"/>-->
         <TextBox x:Name="message" Grid.Row="0" Grid.Column="1" Margin="0,5,5,5" Controls:TextBoxHelper.ClearTextButton="True" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}">
             <TextBox.Text>
                 <Binding Path="Message" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" >
@@ -50,8 +49,8 @@
         <Label Grid.Row="1" Grid.Column="0" Content="Interval (seconds)" Margin="0,5,0,5"/>
         <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" Minimum="0" Value="{Binding Interval}" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}"/>
 
-        <Controls:ToggleSwitch Margin="5,0,5,0" x:Name="toggleSwitch" Grid.ColumnSpan="2" HeaderFontFamily="Segoe UI" FontFamily="Segoe UI" Grid.Row="2" OnLabel="Yes" OffLabel="No" Header="Runescape Text Effects"/>
-
+        <Controls:ToggleSwitch Margin="5,0,5,0" x:Name="toggleSwitch" Grid.ColumnSpan="2" HeaderFontFamily="Segoe UI" FontFamily="Segoe UI" Grid.Row="2" OnLabel="Yes" OffLabel="No" Header="Runescape Text Effects" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}"/>
+        
         <StackPanel Grid.Row="3"  Grid.ColumnSpan="2" Visibility ="{Binding ElementName=toggleSwitch, Path=IsChecked, Converter={StaticResource boolToVisibilityConverter}}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -73,7 +72,7 @@
                 </ComboBox>
 
                 <Label Grid.Column="0" Grid.Row="1" Margin="0,5,0,5" Content="Effect"></Label>
-                <ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" Margin="0,5,5,5" SelectedValue="{Binding TextEffectCode}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="1" Grid.Row="1"/>
+                <!--<ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" Margin="0,5,5,5" SelectedValue="{Binding TextEffectCode}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="1" Grid.Row="1"/>-->
 
 
             </Grid>
