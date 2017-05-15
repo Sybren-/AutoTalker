@@ -14,6 +14,7 @@
         Height="Auto" 
         Width="350" 
         SizeToContent="Height"
+        WindowStartupLocation="CenterScreen"
         FocusManager.FocusedElement="{Binding ElementName=message}">
 
     <Controls:MetroWindow.Resources>
@@ -35,7 +36,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Message" Margin="0,5,0,5"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="{StaticResource autoTalkerMessage}" Margin="0,5,0,5"/>
         <TextBox x:Name="message" Grid.Row="0" Grid.Column="1" Margin="0,5,5,5" Controls:TextBoxHelper.ClearTextButton="True" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}">
             <TextBox.Text>
                 <Binding Path="Message" UpdateSourceTrigger="PropertyChanged" ValidatesOnExceptions="True" ValidatesOnDataErrors="True" >
@@ -46,11 +47,12 @@
             </TextBox.Text>
         </TextBox>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="Interval (seconds)" Margin="0,5,0,5"/>
+        <Label Grid.Row="1" Grid.Column="0" Content="{StaticResource autoTalkerIntervalText}" Margin="0,5,0,5"/>
         <Controls:NumericUpDown Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" Minimum="0" Value="{Binding Interval}" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}"/>
 
-        <Controls:ToggleSwitch Margin="5,0,5,0" x:Name="toggleSwitch" Grid.ColumnSpan="2" HeaderFontFamily="Segoe UI" FontFamily="Segoe UI" Grid.Row="2" OnLabel="Yes" OffLabel="No" Header="Runescape Text Effects" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}"/>
-        
+        <Label Grid.Column="0" Grid.Row="2" Content="{StaticResource autoTalkerTextOptions}" Margin="0,5,0,5"/>
+        <Controls:ToggleSwitchButton Margin="5,0,5,0" x:Name="toggleSwitch" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" IsEnabled="{Binding IsRunning, Converter={StaticResource oppositeConverter}}"/>
+
         <StackPanel Grid.Row="3"  Grid.ColumnSpan="2" Visibility ="{Binding ElementName=toggleSwitch, Path=IsChecked, Converter={StaticResource boolToVisibilityConverter}}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -62,7 +64,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Grid.Row="0" Margin="0,5,0,5" Content="Color"></Label>
+                <Label Grid.Column="0" Grid.Row="0" Margin="0,5,0,5" Content="{StaticResource autoTalkerTextColor}"></Label>
                 <ComboBox ItemsSource="{Binding TextColors}" Controls:TextBoxHelper.ClearTextButton="True" Margin="0,5,5,5" SelectedValue="{Binding TextColorCode}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="1" Grid.Row="0">
                     <ComboBox.ItemContainerStyle>
                         <Style TargetType="ComboBoxItem">
@@ -71,7 +73,7 @@
                     </ComboBox.ItemContainerStyle>
                 </ComboBox>
 
-                <Label Grid.Column="0" Grid.Row="1" Margin="0,5,0,5" Content="Effect"></Label>
+                <Label Grid.Column="0" Grid.Row="1" Margin="0,5,0,5" Content="{StaticResource autoTalkerTextEffect}"></Label>
                 <!--<ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" Margin="0,5,5,5" SelectedValue="{Binding TextEffectCode}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="1" Grid.Row="1"/>-->
 
 
