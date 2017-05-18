@@ -87,35 +87,35 @@ namespace FunProject.ViewModels
             }
         }
 
-        private readonly Dictionary<string, string> _textEffects = new Dictionary<string, string>()
+        public readonly IEnumerable<TextEffect> _textEffects = new List<TextEffect>()
         {
-            {"Flash 1 (Text cycles red to yellow quickly)", "flash1:"},
-            {"Flash 2 (Text cycles blue to cyan quickly)", "flash2:"},
-            {"Flash 3 (Text cycles green to light green quickly)", "flash3:"},
-            {"Glow 1 (Text fades red to blue)", "glow1:"},
-            {"Glow 2 (Text fades red to purple to blue)", "glow2:"},
-            {"Glow 3 (Text fades white to green to blue)", "glow3:" },
-            {"Scroll (Text scrolls right to left)", "scroll:" },
-            {"Shake (Text shakes up and down)", "shake:" },
-            {"Slide (Text slides from top to bottom)", "slide:" },
-            {"Wave (Text waves up and down)", "wave:" },
-            {"Wave 2 (Text waves slowly from left to right)", "wave2:" }
+            new TextEffect { Name = "Flash 1", Code = "flash1:", Description = "Text cycles red to yellow quickly"},
+            new TextEffect { Name = "Flash 2", Code = "flash2:", Description = "Text cycles blue to cyan quickly"},
+            new TextEffect { Name = "Flash 3", Code = "flash3:", Description = "Text cycles green to light green quickly"},
+            new TextEffect { Name = "Glow 1", Code = "glow1:", Description = "Text fades red to blue"},
+            new TextEffect { Name = "Glow 2", Code = "glow2:", Description = "Text fades red to purple to blue"},
+            new TextEffect { Name = "Glow 3", Code = "glow3:", Description = "Text fades white to green to blue"},
+            new TextEffect { Name = "Scroll", Code = "scroll:", Description = "Text scrolls right to left"},
+            new TextEffect { Name = "Shake", Code = "shake:", Description = "Text shakes up and down"},
+            new TextEffect { Name = "Slide", Code = "slide:", Description = "Text slides from top to bottom"},
+            new TextEffect { Name = "Wave", Code = "wave:", Description = "Text waves up and down"},
+            new TextEffect { Name = "Wave2", Code = "wave2", Description = "Text waves slowly from left to right"}
         };
 
 
-        public Dictionary<string, string> TextEffects
+        public IEnumerable<TextEffect> TextEffects
         {
             get { return _textEffects; }
         }
 
-        private ObservableCollection<KeyValuePair<string, string>> _textEffectCodes = new ObservableCollection<KeyValuePair<string, string>>();
-        public ObservableCollection<KeyValuePair<string, string>> TextEffectCodes
+        private ObservableCollection<TextEffect> _selectedTextEffects = new ObservableCollection<TextEffect>();
+        public ObservableCollection<TextEffect> SelectedTextEffects
         {
-            get { return _textEffectCodes; }
+            get { return _selectedTextEffects; }
             set
             {
-                _textEffectCodes = value;
-                NotifyOfPropertyChange(() => TextEffectCodes);
+                _selectedTextEffects = value;
+                NotifyOfPropertyChange(() => SelectedTextEffects);
             }
         }
 
@@ -134,8 +134,7 @@ namespace FunProject.ViewModels
         {
             IsRunning = true;
 
-            var x = TextEffectCodes;
-            var message = TextEffectsProcessor.ProcessMessageTextColor(Message, TextColorCode, "TIJDELIJK");
+            var message = TextEffectsProcessor.ProcessMessageTextColor(Message, TextColorCode, SelectedTextEffects);
 
             while (!token.IsCancellationRequested)
             {

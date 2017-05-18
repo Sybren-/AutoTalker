@@ -84,8 +84,11 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Behaviors\ListBoxMultiSelectionBehavior.cs" />
     <Compile Include="Converters\BoolToOppositeBoolConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\TextEffectCollectionConverter.cs" />
+    <Compile Include="TextEffect.cs" />
     <Compile Include="TextEffectsProcessor.cs" />
     <Compile Include="Validation\RequiredValidationRule.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
@@ -132,7 +135,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AttachedProperties\" />
-    <Folder Include="Behaviors\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

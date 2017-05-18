@@ -8,6 +8,8 @@
         xmlns:conv="clr-namespace:FunProject.Converters"
         xmlns:val="clr-namespace:FunProject.Validation"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:behaviours="clr-namespace:FunProject.Behaviors"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
         mc:Ignorable="d"
         d:DataContext="{x:Type model:AppViewModel}"
         Title="{Binding WindowTitle}" 
@@ -21,6 +23,7 @@
         <conv:BoolToOppositeBoolConverter x:Key="oppositeConverter" />
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
         <conv:ColorToBrushConverter x:Key="colorToBrushConverter"/>
+        <conv:TextEffectCollectionConverter x:Key="textEffectCollectionConverter"/>
     </Controls:MetroWindow.Resources>
 
     <Grid>
@@ -75,7 +78,18 @@
 
                 <Label Grid.Column="0" Grid.Row="1" Margin="0,5,0,5" Content="{StaticResource autoTalkerTextEffect}"></Label>
                 <!--<ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" Margin="0,5,5,5" SelectedValue="{Binding TextEffectCode}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="1" Grid.Row="1"/>-->
-
+                <Expander Grid.Column="1" Grid.Row="1" Margin="0,5,5,5" Header="{Binding SelectedTextEffects, Converter={StaticResource textEffectCollectionConverter}}">
+                <ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" DisplayMemberPath="Name">
+                        <i:Interaction.Behaviors>
+                            <behaviours:ListBoxMultiSelectionBehavior SelectedItems="{Binding SelectedTextEffects}" />
+                        </i:Interaction.Behaviors>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="ToolTip" Value="{Binding Description}"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </Expander> 
 
             </Grid>
         </StackPanel>
