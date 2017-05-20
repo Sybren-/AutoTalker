@@ -10,24 +10,18 @@ using System.Windows.Data;
 namespace FunProject.Converters
 {
     [ValueConversion(typeof(ObservableCollection<TextEffect>), typeof(string))]
-    class TextEffectCollectionConverter : IValueConverter
+    class TextEffectCollectionConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var textEffects = (ObservableCollection<TextEffect>)value;
+            var textEffects = (ObservableCollection<TextEffect>)values[0];
 
-            var sb = new StringBuilder();
-            foreach (var textEffect in textEffects)
-            {
-                sb.AppendLine(textEffect.Name);
-            }
-
-            return sb.ToString();
+            return string.Join(", ", textEffects.Select(effect => effect.Name));
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            return null;
+            throw new NotImplementedException();
         }
     }
 }

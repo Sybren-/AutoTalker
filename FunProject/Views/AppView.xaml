@@ -77,8 +77,13 @@
                 </ComboBox>
 
                 <Label Grid.Column="0" Grid.Row="1" Margin="0,5,0,5" Content="{StaticResource autoTalkerTextEffect}"></Label>
-                <!--<ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" Margin="0,5,5,5" SelectedValue="{Binding TextEffectCode}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="1" Grid.Row="1"/>-->
-                <Expander Grid.Column="1" Grid.Row="1" Margin="0,5,5,5" Header="{Binding SelectedTextEffects, Converter={StaticResource textEffectCollectionConverter}}">
+                <Expander Grid.Column="1" Grid.Row="1" Margin="0,5,5,5">
+                    <Expander.Header>
+                        <MultiBinding Converter="{StaticResource textEffectCollectionConverter}">
+                            <Binding Path="SelectedTextEffects"/>
+                            <Binding Path="SelectedTextEffects.Count"/>
+                        </MultiBinding>
+                    </Expander.Header>
                 <ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" DisplayMemberPath="Name">
                         <i:Interaction.Behaviors>
                             <behaviours:ListBoxMultiSelectionBehavior SelectedItems="{Binding SelectedTextEffects}" />
