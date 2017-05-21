@@ -5,7 +5,7 @@
 
     <system:String x:Key="autoTalkerMessage">Message</system:String>
     <system:String x:Key="autoTalkerIntervalText">Interval (seconds)</system:String>
-    <system:String x:Key="autoTalkerTextOptions">Runescape text options</system:String>
+    <system:String x:Key="autoTalkerTextOptions">Runescape</system:String>
     <system:String x:Key="autoTalkerTextColor">Color</system:String>
     <system:String x:Key="autoTalkerTextEffect">Effect</system:String>
 

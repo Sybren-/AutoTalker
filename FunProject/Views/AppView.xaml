@@ -10,6 +10,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:behaviours="clr-namespace:FunProject.Behaviors"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+        xmlns:local="clr-namespace:FunProject"
         mc:Ignorable="d"
         d:DataContext="{x:Type model:AppViewModel}"
         Title="{Binding WindowTitle}" 
@@ -24,7 +25,24 @@
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
         <conv:ColorToBrushConverter x:Key="colorToBrushConverter"/>
         <conv:TextEffectCollectionConverter x:Key="textEffectCollectionConverter"/>
+        <conv:TextColorCollectionConverter x:Key="textColorCollectionConverter"/>
     </Controls:MetroWindow.Resources>
+
+    <i:Interaction.Triggers>
+        <local:InputBindingTrigger>
+            <local:InputBindingTrigger.InputBinding>
+                <KeyBinding Key="F1"/>
+            </local:InputBindingTrigger.InputBinding>
+            <cal:ActionMessage MethodName="Run"/>
+        </local:InputBindingTrigger>
+
+        <local:InputBindingTrigger>
+            <local:InputBindingTrigger.InputBinding>
+                <KeyBinding Key="F2"/>
+            </local:InputBindingTrigger.InputBinding>
+            <cal:ActionMessage MethodName="Stop"/>
+        </local:InputBindingTrigger>
+    </i:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -68,13 +86,12 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Grid.Column="0" Grid.Row="0" Margin="0,5,0,5" Content="{StaticResource autoTalkerTextColor}"></Label>
-                <ComboBox ItemsSource="{Binding TextColors}" Controls:TextBoxHelper.ClearTextButton="True" Margin="0,5,5,5" SelectedValue="{Binding TextColorCode}" DisplayMemberPath="Key" SelectedValuePath="Value" Grid.Column="1" Grid.Row="0">
-                    <ComboBox.ItemContainerStyle>
-                        <Style TargetType="ComboBoxItem">
-                            <Setter Property="Foreground" Value="{Binding Converter={StaticResource colorToBrushConverter}}"/>
-                        </Style>
-                    </ComboBox.ItemContainerStyle>
-                </ComboBox>
+                <Expander Grid.Column="1" Grid.Row="0" Margin="0,5,5,5">
+                    <Expander.Header>
+                        <Binding Path="TextColor.Name"/>
+                    </Expander.Header>
+                    <ListBox ItemsSource="{Binding TextColors}" Controls:TextBoxHelper.ClearTextButton="True" DisplayMemberPath="Name" SelectedValue="{Binding TextColor}"/>
+                </Expander>
 
                 <Label Grid.Column="0" Grid.Row="1" Margin="0,5,0,5" Content="{StaticResource autoTalkerTextEffect}"></Label>
                 <Expander Grid.Column="1" Grid.Row="1" Margin="0,5,5,5">
@@ -84,7 +101,7 @@
                             <Binding Path="SelectedTextEffects.Count"/>
                         </MultiBinding>
                     </Expander.Header>
-                <ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" DisplayMemberPath="Name">
+                    <ListBox SelectionMode="Multiple" ItemsSource="{Binding TextEffects}" Controls:TextBoxHelper.ClearTextButton="True" DisplayMemberPath="Name">
                         <i:Interaction.Behaviors>
                             <behaviours:ListBoxMultiSelectionBehavior SelectedItems="{Binding SelectedTextEffects}" />
                         </i:Interaction.Behaviors>
@@ -94,7 +111,7 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
-                </Expander> 
+                </Expander>
 
             </Grid>
         </StackPanel>

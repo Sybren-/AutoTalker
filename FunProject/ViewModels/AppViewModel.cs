@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using FunProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -61,29 +62,37 @@ namespace FunProject.ViewModels
             }
         }
 
-        private readonly Dictionary<string, string> _textColors = new Dictionary<string, string>()
+        //private readonly Dictionary<string, string> _textColors = new Dictionary<string, string>()
+        //{
+        //    {"Cyan", "cyan:"},
+        //    {"Green", "green:"},
+        //    {"Purple", "purple:"},
+        //    {"Red", "red:"},
+        //    {"White", "white:"}
+        //};
+
+        public readonly IEnumerable<TextColor> _textColors = new List<TextColor>()
         {
-            {"Cyan", "cyan:"},
-            {"Green", "green:"},
-            {"Purple", "purple:"},
-            {"Red", "red:"},
-            {"White", "white:"}
+            new TextColor { Name = "Cyan", Code = "cyan:"},
+            new TextColor { Name = "Green", Code = "green:"},
+            new TextColor { Name = "Purple", Code = "purple:"},
+            new TextColor { Name = "Red", Code = "red:"},
+            new TextColor { Name = "White", Code = "white:"}
         };
 
-
-        public Dictionary<string, string> TextColors
+        public IEnumerable<TextColor> TextColors
         {
             get { return _textColors; }
         }
 
-        private string _textColorCode = string.Empty;
-        public string TextColorCode
+        private TextColor _textColor;
+        public TextColor TextColor
         {
-            get { return _textColorCode; }
+            get { return _textColor; }
             set
             {
-                _textColorCode = value;
-                NotifyOfPropertyChange(() => TextColorCode);
+                _textColor = value;
+                NotifyOfPropertyChange(() => TextColor);
             }
         }
 
@@ -134,7 +143,7 @@ namespace FunProject.ViewModels
         {
             IsRunning = true;
 
-            var message = TextEffectsProcessor.ProcessMessageTextColor(Message, TextColorCode, SelectedTextEffects);
+            var message = TextEffectsProcessor.ProcessMessageTextColor(Message, TextColor, SelectedTextEffects);
 
             while (!token.IsCancellationRequested)
             {

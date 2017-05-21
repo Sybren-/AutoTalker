@@ -87,8 +87,11 @@
     <Compile Include="Behaviors\ListBoxMultiSelectionBehavior.cs" />
     <Compile Include="Converters\BoolToOppositeBoolConverter.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\TextColorCollectionConverter.cs" />
     <Compile Include="Converters\TextEffectCollectionConverter.cs" />
-    <Compile Include="TextEffect.cs" />
+    <Compile Include="InputBindingTrigger.cs" />
+    <Compile Include="Models\TextColor.cs" />
+    <Compile Include="Models\TextEffect.cs" />
     <Compile Include="TextEffectsProcessor.cs" />
     <Compile Include="Validation\RequiredValidationRule.cs" />
     <Compile Include="ViewModels\AppViewModel.cs" />
